@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { CanceledError } from "axios";
 import { useEffect, useState } from "react";
 import gameService, { type FetchGameResponse, type GameData } from "@/services/game-service";
