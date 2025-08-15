@@ -22,3 +22,6 @@ export interface FetchGameResponse {
 }
 
 export default create('/games');
+
+
+
