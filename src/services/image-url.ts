@@ -1,5 +1,7 @@
 // Function to take an image URL and return a cropped version of it
+import noImage from '../assets/download (1).jpeg'
 export const getCroppedImageUrl = (url: string) => {
+    if(!url) return noImage;
     // Step 1: Define the substring in the URL where the image path starts.
     // In this case, 'media/' is the marker that tells us where the original image file path begins.
     const target = 'media/';

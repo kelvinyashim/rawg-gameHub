@@ -1,6 +1,6 @@
 import { usePlatforms } from "@/hooks/usePlatform";
 import type { Platform } from "@/services/game-service";
-import { Box, Button, Menu, Portal } from "@chakra-ui/react";
+import {  Button, Menu, Portal } from "@chakra-ui/react";
 import { HiChevronDown } from "react-icons/hi";
 
 interface Props {
@@ -13,7 +13,7 @@ export const FilterByPlatform = ({
 }: Props) => {
   const { platform } = usePlatforms();
   return (
-    <Box px={10}>
+    
       <Menu.Root>
         <Menu.Trigger asChild>
           <Button variant="solid">
@@ -37,6 +37,5 @@ export const FilterByPlatform = ({
           </Menu.Positioner>
         </Portal>
       </Menu.Root>
-    </Box>
   );
 };
