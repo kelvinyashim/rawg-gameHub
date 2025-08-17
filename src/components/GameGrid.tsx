@@ -1,46 +1,42 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useGame } from "@/hooks/useGame";
 import GameCard from "./GameCard";
-import { SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid, Box, Text } from "@chakra-ui/react";
 import { GameCardSkeleton } from "./GameCardSkeleton";
 import GameCardContainer from "./GameCardContainer";
+import type { Genres } from "@/services/genre-service";
+import type { Platform } from "@/services/game-service";
 
-export const GameGrid = () => {
-  const { games, error, setError, setGames, isLoading } = useGame();
-  
-  const skeleton = [1, 2, 3, 4, 5, 6];
+interface Props {
+  selectedGenre: Genres | null;
+  selectedPlatform: Platform | null; 
+}
+
+export const GameGrid = ({ selectedGenre,selectedPlatform }: Props) => {
+  const { games, error, isLoading } = useGame(selectedGenre?.id, selectedPlatform?.id);
+
+  const skeletons = [1, 2, 3, 4, 5, 6];
 
   return (
-    <>
-      {error && <p>{error}</p>}
+    <Box px={10} py={1}>
+      {error && <Text color="red.500">{error}</Text>}
 
       <SimpleGrid
-        columns={{
-          sm: 1,
-          md: 2,
-          lg: 3,
-        }}
-        p={10}
-        padding={10}
-        margin={3}
-        spaceX={10}
-        spaceY={10}
+        columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+        gap={5} 
       >
         {isLoading &&
-          skeleton.map((skeleton) => (
-            <GameCardContainer>
-              <GameCardSkeleton key={skeleton} />
+          skeletons.map((skeleton) => (
+            <GameCardContainer key={skeleton}>
+              <GameCardSkeleton />
             </GameCardContainer>
           ))}
-    
-          {games.map((game) => (
-            <GameCardContainer>
-              <GameCard key={game.id} game={game} />
-            </GameCardContainer>
-          ))}
-          ;
-       
+
+        {games.map((game) => (
+          <GameCardContainer key={game.id}>
+            <GameCard game={game} />
+          </GameCardContainer>
+        ))}
       </SimpleGrid>
-    </>
+    </Box>
   );
 };

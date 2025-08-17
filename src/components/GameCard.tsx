@@ -9,13 +9,14 @@ interface Props {
 
 const GameCard = ({ game }: Props) => {
   return (
-    <Card.Root>
+    <Card.Root borderRadius={9}>
       <Image
         src={getCroppedImageUrl(game.background_image)}
         alt={game.name}
+        borderRadius={5}
       />
-      
-      <Card.Body>
+
+      <Card.Body >
         <PlatFormIconList platforms={game.platforms} />
         <Card.Title>{game.name}</Card.Title>
         <Badge alignContent={'center'} marginRight={{

@@ -1,31 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { CanceledError } from "axios";
 import { useEffect, useState } from "react";
 import gameService, {
   type FetchGameResponse,
   type GameData,
 } from "@/services/game-service";
 
-export const useGame = () => {
+
+
+export const useGame = (selectedGenreId?: number, selectedPlatform?: number) => {
   const [games, setGames] = useState<GameData[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    const { request, cancel } = gameService.getAll<FetchGameResponse>();
     setLoading(true);
-    request
+    gameService
+      .getAll<FetchGameResponse>({ params: { genres: selectedGenreId, platforms: selectedPlatform } }).request // 👈 filter by genre
       .then((res) => {
         setGames(res.data.results);
         setLoading(false);
       })
       .catch((err) => {
-        if (err instanceof CanceledError) return;
         setError(err.message);
         setLoading(false);
       });
-    return () => cancel();
-  }, []);
-  return { games, setGames, setError, error, isLoading };
+  }, [selectedGenreId,selectedPlatform]); 
+
+  return { games, error, setError, setGames, isLoading };
 };

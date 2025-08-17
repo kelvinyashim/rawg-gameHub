@@ -1,15 +1,45 @@
-import { useGenres } from '@/hooks/useGenres'
+import { useGenres } from "@/hooks/useGenres";
+import type { Genres } from "@/services/genre-service";
+import { getCroppedImageUrl } from "@/services/image-url";
+import {
+  Button,
+  HStack,
+  Image,
+  List,
+  ListItem,
+  Spinner,
+} from "@chakra-ui/react";
 
-const GameGenres = () => {
-    const {genres} = useGenres();
-    
-  return (
-    <div>
-      {genres.map(genre=> <ul>
-        <li key={genre.id}>{genre.name}</li>
-      </ul>)}
-    </div>
-  )
+interface Props {
+  onSelectedGenre: (genre: Genres) => void;
 }
+const GameGenres = ({ onSelectedGenre }: Props) => {
+  const { genres, isLoading } = useGenres();
 
-export default GameGenres
+  if (isLoading) return <Spinner color="blue" />;
+
+  return (
+    <>
+
+      <List.Root listStyle="none">
+        {genres.map((genre) => (
+          <ListItem key={genre.id}>
+            <HStack marginRight={20}>
+              <Image
+                src={getCroppedImageUrl(genre.image_background)}
+                boxSize="40px"
+                borderRadius={8}
+                margin={1}
+              />
+              <Button onClick={() => onSelectedGenre(genre)} variant="ghost">
+                {genre.name}
+              </Button>
+            </HStack>
+          </ListItem>
+        ))}
+      </List.Root>
+    </>
+  );
+};
+
+export default GameGenres;

@@ -10,13 +10,15 @@ class HttpService {
     this.endpoint = endpoint;
   }
 
-  getAll<T>() {
-    const controller = new AbortController();
-    const request = apiClient.get<T>(this.endpoint, {
-      signal: controller.signal,
-    });
-    return {request, cancel: () => controller.abort()}
-  }
+getAll<T>(p0?: { params?: unknown }) {
+  const controller = new AbortController();
+  const request = apiClient.get<T>(this.endpoint, {
+    signal: controller.signal,
+    ...p0,   // 👈 include params here
+  });
+  return { request, cancel: () => controller.abort() };
+}
+
 
   create<T>(entity: T) {
     return apiClient.post(this.endpoint, entity);
