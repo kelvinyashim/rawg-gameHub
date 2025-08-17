@@ -5,10 +5,10 @@ import gameService, {
   type FetchGameResponse,
   type GameData,
 } from "@/services/game-service";
+import type { GameQuery } from "@/App";
 
 
-
-export const useGame = (selectedGenreId?: number, selectedPlatform?: number) => {
+export const useGame = (gameQuery: GameQuery) => {
   const [games, setGames] = useState<GameData[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ export const useGame = (selectedGenreId?: number, selectedPlatform?: number) => 
   useEffect(() => {
     setLoading(true);
     gameService
-      .getAll<FetchGameResponse>({ params: { genres: selectedGenreId, platforms: selectedPlatform } }).request // 👈 filter by genre
+      .getAll<FetchGameResponse>({ params: { genres: gameQuery.genre?.id, platforms: gameQuery.platform?.id } }).request // 👈 filter by genre
       .then((res) => {
         setGames(res.data.results);
         setLoading(false);
@@ -25,7 +25,7 @@ export const useGame = (selectedGenreId?: number, selectedPlatform?: number) => 
         setError(err.message);
         setLoading(false);
       });
-  }, [selectedGenreId,selectedPlatform]); 
+  }, [gameQuery]); 
 
   return { games, error, setError, setGames, isLoading };
 };
