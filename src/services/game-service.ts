@@ -13,7 +13,8 @@ export interface GameData {
     platform: Platform
   }[],
   metacritic: number,
-  ordering:string
+  ordering:string,
+  rating_top:number
 }
 
 

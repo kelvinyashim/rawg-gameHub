@@ -20,6 +20,7 @@ export const useGame = (gameQuery: GameQuery,) => {
           genres: gameQuery.genre?.id,
           platforms: gameQuery.platform?.id,
           ordering: gameQuery.sortOrder,
+          search: gameQuery.searchText
         },
       })
       .request // 👈 filter by genre

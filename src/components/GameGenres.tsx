@@ -3,6 +3,7 @@ import type { Genres } from "@/services/genre-service";
 import { getCroppedImageUrl } from "@/services/image-url";
 import {
   Button,
+  Heading,
   HStack,
   Image,
   List,
@@ -20,18 +21,27 @@ const GameGenres = ({ onSelectedGenre }: Props) => {
 
   return (
     <>
-
+      <Heading fontSize="2xl" marginBottom={4}>
+        Genres
+      </Heading>
       <List.Root listStyle="none">
         {genres.map((genre) => (
           <ListItem key={genre.id}>
-            <HStack marginRight={20}>
+            <HStack>
               <Image
                 src={getCroppedImageUrl(genre.image_background)}
                 boxSize="40px"
                 borderRadius={8}
+                objectFit="cover"
                 margin={1}
               />
-              <Button onClick={() => onSelectedGenre(genre)} variant="ghost">
+              <Button
+                whiteSpace="normal"
+                textAlign="left"
+                onClick={() => onSelectedGenre(genre)}
+                variant="ghost"
+                overflow='clip'
+              >
                 {genre.name}
               </Button>
             </HStack>
