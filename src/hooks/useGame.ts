@@ -2,11 +2,12 @@ import { type GameData } from "@/services/game-service";
 import type { GameQuery } from "@/App";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import APICLIENT, { type FetchResposnse } from "@/services/api-client";
+import useInfiniteScroll from "react-infinite-scroll-hook";
 
 const api = new APICLIENT<GameData>("/games");
 
 export const useGame = (gameQuery: GameQuery) => {
-  return useInfiniteQuery<FetchResposnse<GameData>, Error>({
+  const {data, fetchNextPage, isFetchingNextPage, hasNextPage, ...rest} = useInfiniteQuery<FetchResposnse<GameData>, Error>({
     queryKey: ["games", gameQuery],
     queryFn: ({ pageParam = 1 }) =>
       api.getAll({
@@ -25,4 +26,21 @@ export const useGame = (gameQuery: GameQuery) => {
     },
     staleTime: 25 * 1000, // 25 seconds
   });
+
+    const [sentryRef] = useInfiniteScroll({
+    loading: isFetchingNextPage,
+    hasNextPage: !!hasNextPage,
+    onLoadMore: fetchNextPage,
+    disabled: !!rest.error,
+    rootMargin: "0px 0px 400px 0px",
+  });
+
+  return {
+    games: data,
+    sentryRef, 
+    isFetchingNextPage,
+    hasNextPage,
+    ...rest,
+  };
 };
+

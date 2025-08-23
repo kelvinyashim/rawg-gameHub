@@ -1,6 +1,6 @@
 import { useGame } from "@/hooks/useGame";
 import GameCard from "./GameCard";
-import { SimpleGrid, Box, Text, Button } from "@chakra-ui/react";
+import { SimpleGrid, Box, Text, } from "@chakra-ui/react";
 import { GameCardSkeleton } from "./GameCardSkeleton";
 import GameCardContainer from "./GameCardContainer";
 
@@ -13,10 +13,10 @@ interface Props {
 
 export const GameGrid = ({ gameQuery }: Props) => {
   const {
-    data: games,
+     games,
     error,
     isLoading,
-    fetchNextPage,
+    sentryRef,
     isFetchingNextPage,
     hasNextPage,
   } = useGame(gameQuery);
@@ -44,9 +44,9 @@ export const GameGrid = ({ gameQuery }: Props) => {
         ))}
       </SimpleGrid>
       {hasNextPage ? (
-        <Button margin={3}  onClick={() => fetchNextPage()}>
-          {isFetchingNextPage ? "Loading..." : "Load More"}
-        </Button>
+         <div ref={sentryRef}>
+        {isFetchingNextPage && <p>Loading more...</p>}
+      </div>
       ) : null}
     </Box>
   );
