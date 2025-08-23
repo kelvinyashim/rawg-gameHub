@@ -1,4 +1,5 @@
 import { usePlatforms } from "@/hooks/usePlatform";
+import { usePlatform } from "@/hooks/usePlatforms";
 import type { Platform } from "@/services/game-service";
 import {  Button, Menu, Portal } from "@chakra-ui/react";
 import { HiChevronDown } from "react-icons/hi";
@@ -12,7 +13,7 @@ export const FilterByPlatform = ({
   selectedPlatformId,
 }: Props) => {
   const {data: platform } = usePlatforms();
-  const selectedPlat = platform.results.find(plat=> plat.id === selectedPlatformId);
+  const selectedPlat = usePlatform(selectedPlatformId);
   return (
     
       <Menu.Root>
@@ -25,7 +26,7 @@ export const FilterByPlatform = ({
         <Portal>
           <Menu.Positioner>
             <Menu.Content>
-              {platform.results.map((p) => (
+              {platform?.results.map((p) => (
                 <Menu.Item
                   key={p.id}
                   value={p.slug}
