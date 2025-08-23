@@ -3,6 +3,7 @@ import type { GameQuery } from "@/App";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import APICLIENT, { type FetchResposnse } from "@/services/api-client";
 import useInfiniteScroll from "react-infinite-scroll-hook";
+import ms from "ms";
 
 const api = new APICLIENT<GameData>("/games");
 
@@ -24,7 +25,7 @@ export const useGame = (gameQuery: GameQuery) => {
       // ✅ react-query expects undefined when there is no next page
       return lastPage.next ? allPages.length + 1 : undefined;
     },
-    staleTime: 24 * 60 * 60 * 1000, 
+    staleTime: ms('24h'),
   });
 
     const [sentryRef] = useInfiniteScroll({
