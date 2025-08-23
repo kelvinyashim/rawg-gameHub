@@ -17,3 +17,56 @@ export const getCroppedImageUrl = (url: string) => {
     // url.slice(index) → the rest of the URL after 'media/'
     return url.slice(0, index) + 'crop/600/400/' + url.slice(index);
 }
+
+
+
+
+
+
+import apiClient from "./api-url";
+
+interface Entity{
+    id: number
+}
+class HttpService<T extends Entity> {
+  endpoint: string;
+
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
+  }
+
+getAll = (p0?: { params?: unknown })=> {
+  const controller = new AbortController();
+  const request = apiClient.get<T>(this.endpoint, {
+    signal: controller.signal,
+    ...p0,   // 👈 include params here
+  });
+  return { request, cancel: () => controller.abort() };
+}
+
+getbyId = (p0?: { params?: unknown })=> {
+  return apiClient.get<T>(this.endpoint, {
+    ...p0,   // 👈 include params here
+  }).then(res=> res.data);
+}
+
+get = () => {
+  return apiClient.get<T>(this.endpoint).then(res=> res.data);
+}
+
+
+
+  create = (entity: T) =>{
+    return apiClient.post(this.endpoint, entity);
+  }
+
+  delete = (id: number) =>{
+    return apiClient.delete(this.endpoint + "/" + id);
+  }
+  update = (entity: T)=>{
+    return apiClient.put(this.endpoint + '/' + entity.id, entity)
+  }
+}
+
+
+export default HttpService;

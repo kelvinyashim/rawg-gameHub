@@ -1,4 +1,4 @@
-import { create } from "./http.ts";
+import { create } from "./http";
 
 export interface Platform{
   id: number,

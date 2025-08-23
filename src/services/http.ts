@@ -32,5 +32,4 @@ getAll<T>(p0?: { params?: unknown }) {
   }
 }
 
-
 export const create = (endpoint:string)=> new HttpService(endpoint);

@@ -11,7 +11,7 @@ export const FilterByPlatform = ({
   onSelectedPlatform,
   selectedPlatform,
 }: Props) => {
-  const { platform } = usePlatforms();
+  const {data: platform } = usePlatforms();
   return (
     
       <Menu.Root>
@@ -24,7 +24,7 @@ export const FilterByPlatform = ({
         <Portal>
           <Menu.Positioner>
             <Menu.Content>
-              {platform.map((p) => (
+              {platform.results.map((p) => (
                 <Menu.Item
                   key={p.id}
                   value={p.slug}

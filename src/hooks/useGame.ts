@@ -1,38 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { useEffect, useState } from "react";
-import gameService, {
-  type FetchGameResponse,
-  type GameData,
-} from "@/services/game-service";
+import { type FetchGameResponse } from "@/services/game-service";
 import type { GameQuery } from "@/App";
+import { useQuery } from "@tanstack/react-query";
+import { gameKey } from "@/services/constants/game";
+import apiClient from "@/services/api-client";
 
-export const useGame = (gameQuery: GameQuery,) => {
-  const [games, setGames] = useState<GameData[]>([]);
-  const [error, setError] = useState("");
-  const [isLoading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    gameService
-      .getAll<FetchGameResponse>({
+export const useGame = (gameQuery: GameQuery) => {
+  return useQuery<FetchGameResponse, Error>({
+    queryKey: gameKey,
+    queryFn: () =>
+      apiClient.get("/games", {
         params: {
           genres: gameQuery.genre?.id,
-          platforms: gameQuery.platform?.id,
+          parent_platforms: gameQuery.platform?.id,
           ordering: gameQuery.sortOrder,
-          search: gameQuery.searchText
+          search: gameQuery.searchText,
         },
-      })
-      .request // 👈 filter by genre
-      .then((res) => {
-        setGames(res.data.results);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [gameQuery]);
-
-  return { games, error, setError, setGames, isLoading };
+      }).then(res=> res.data),
+    staleTime: 25 * 100,
+  });
 };
