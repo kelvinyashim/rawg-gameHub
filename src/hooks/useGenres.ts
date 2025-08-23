@@ -1,15 +1,16 @@
 
 import genres from "@/data/genres";
-import apiClient from "@/services/api-client";
+import APICLIENT from "@/services/api-client";
 import { genresKey } from "@/services/constants/genres";
-import { type FecthGenreResponse } from "@/services/genre-service";
+import { type Genres } from "@/services/genre-service";
 import { useQuery } from "@tanstack/react-query";
 
+const api = new APICLIENT<Genres>('/genres');
 export const useGenres = () => {
-  return useQuery<FecthGenreResponse,Error>({
+  return useQuery({
     queryKey:genresKey,
-    queryFn: ()=> apiClient.get('/genres').then(res=>res.data),
+    queryFn:api.getAll,
     staleTime: 10 * 60 * 60 *1000,
-    initialData: { results: genres}
+    initialData: {count:genres.length, results: genres}
   })
 };

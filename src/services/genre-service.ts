@@ -1,4 +1,3 @@
-import { create } from "./http"
 
 export interface FecthGenreResponse{
     results: Genres[]
@@ -10,4 +9,3 @@ export interface Genres{
     image_background:string,
 }
 
-export default create('/genres');

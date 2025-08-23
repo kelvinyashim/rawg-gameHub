@@ -2,20 +2,21 @@
 
 
 import platform from "@/data/platform";
-import apiClient from "@/services/api-client";
+import APICLIENT from "@/services/api-client";
 import { platformsKey } from "@/services/constants/platform";
-import type { FetchPlatformResponse } from "@/services/platform-service";
+import type { Platform } from "@/services/game-service";
 import { useQuery } from "@tanstack/react-query";
 
+const api = new APICLIENT<Platform>('/genres');
 
 export const usePlatforms = () => {
  
 
-  return useQuery<FetchPlatformResponse,Error>({
+  return useQuery({
     queryKey:platformsKey,
-    queryFn:()=> apiClient.get('/platforms/lists/parents'),
+    queryFn: api.getAll,
     staleTime:24 * 60 * 60 * 1000,
-    initialData: {results: platform}
+    initialData: {count:platform.length, results: platform}
 
   })
 };

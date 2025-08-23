@@ -1,45 +1,44 @@
-import axios from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 
-export default axios.create({
+export interface FetchResposnse<T>{
+    count:number;
+    results: T[];
+}
+ const axiosInstance = axios.create({
     baseURL: 'https://api.rawg.io/api',
     params:{
         key:'6ce1cc5c1b874ef8ba477e665104f6b8'
     }
 })
 
-import apiClient from "./api-client";
 
 interface Entity{
     id: number
 }
-class HttpService {
+class APICLIENT <T extends Entity>{
   endpoint: string;
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;
   }
 
-getAll<T>(p0?: { params?: unknown }) {
-  const controller = new AbortController();
-  const request = apiClient.get<T>(this.endpoint, {
-    signal: controller.signal,
-    ...p0,   // 👈 include params here
-  });
-  return { request, cancel: () => controller.abort() };
+getAll = (config: AxiosRequestConfig)=>{
+
+  return axiosInstance.get<FetchResposnse<T>>(this.endpoint, config).then(res=>res.data);
 }
 
 
-  create<T>(entity: T) {
-    return apiClient.post(this.endpoint, entity);
+  create = (entity: T)=> {
+    return axiosInstance.post(this.endpoint, entity);
   }
 
-  delete(id: number) {
-    return apiClient.delete(this.endpoint + "/" + id);
+  delete = (id: number) =>{
+    return axiosInstance.delete(this.endpoint + "/" + id);
   }
-  update<T extends Entity>(entity: T){
-    return apiClient.put(this.endpoint + '/' + entity.id, entity)
+  update = (entity: T)=>{
+    return axiosInstance.put(this.endpoint + '/' + entity.id, entity)
   }
 }
 
 
-export const create = (endpoint:string)=> new HttpService(endpoint);
+export default APICLIENT;

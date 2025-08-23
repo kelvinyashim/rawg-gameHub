@@ -1,4 +1,3 @@
-import { create } from "./http";
 
 export interface Platform{
   id: number,
@@ -23,7 +22,6 @@ export interface FetchGameResponse {
   results: GameData[];
 }
 
-export default create('/games');
 
 
 
