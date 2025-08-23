@@ -45,7 +45,7 @@ export const GameGrid = ({ gameQuery }: Props) => {
       </SimpleGrid>
       {hasNextPage ? (
          <div ref={sentryRef}>
-        {isFetchingNextPage && <p>Loading more...</p>}
+        {isFetchingNextPage && <p>...</p>}
       </div>
       ) : null}
     </Box>

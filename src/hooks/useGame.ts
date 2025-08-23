@@ -12,8 +12,8 @@ export const useGame = (gameQuery: GameQuery) => {
     queryFn: ({ pageParam = 1 }) =>
       api.getAll({
         params: {
-          genres: gameQuery.genre?.id,
-          parent_platforms: gameQuery.platform?.id,
+          genres: gameQuery.genreId,
+          parent_platforms: gameQuery.platformId,
           ordering: gameQuery.sortOrder,
           search: gameQuery.searchText,
           page: pageParam,
@@ -24,7 +24,7 @@ export const useGame = (gameQuery: GameQuery) => {
       // ✅ react-query expects undefined when there is no next page
       return lastPage.next ? allPages.length + 1 : undefined;
     },
-    staleTime: 25 * 1000, // 25 seconds
+    staleTime: 24 * 60 * 60 * 1000, 
   });
 
     const [sentryRef] = useInfiniteScroll({

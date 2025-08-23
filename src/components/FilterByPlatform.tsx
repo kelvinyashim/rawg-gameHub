@@ -5,19 +5,20 @@ import { HiChevronDown } from "react-icons/hi";
 
 interface Props {
   onSelectedPlatform: (platform: Platform) => void;
-  selectedPlatform: Platform | null;
+  selectedPlatformId?:number;
 }
 export const FilterByPlatform = ({
   onSelectedPlatform,
-  selectedPlatform,
+  selectedPlatformId,
 }: Props) => {
   const {data: platform } = usePlatforms();
+  const selectedPlat = platform.results.find(plat=> plat.id === selectedPlatformId);
   return (
     
       <Menu.Root>
         <Menu.Trigger asChild>
           <Button variant="solid">
-            {selectedPlatform ? selectedPlatform.name : "Platforms"}
+            {selectedPlatformId ? selectedPlat?.name : "Platforms"}
             <HiChevronDown />
           </Button>
         </Menu.Trigger>
