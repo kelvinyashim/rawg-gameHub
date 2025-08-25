@@ -8,7 +8,7 @@ import type { Platform } from "@/services/game-service";
 import { useQuery } from "@tanstack/react-query";
 import ms from "ms";
 
-const api = new APICLIENT<Platform>('/genres');
+const api = new APICLIENT<Platform>('/platforms/lists/parents');
 
 export const usePlatforms = () => {
  
