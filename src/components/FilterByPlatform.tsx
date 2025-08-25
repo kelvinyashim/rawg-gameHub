@@ -26,7 +26,7 @@ export const FilterByPlatform = ({
         <Portal>
           <Menu.Positioner>
             <Menu.Content>
-              {platform.results.map((p) => (
+              {platform?.results.map((p) => (
                 <Menu.Item
                   key={p.id}
                   value={p.slug}
