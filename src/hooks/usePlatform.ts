@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import platform from "@/data/platform";
 import APICLIENT, { type FetchResposnse } from "@/services/api-client";
 import { platformsKey } from "@/services/constants/platform";
 import type { Platform } from "@/services/game-service";
@@ -13,5 +14,6 @@ export const usePlatforms = () => {
     queryKey: platformsKey,
     queryFn: api.getAll,
     staleTime: ms("24h"),
+    initialData:platform
   });
 };
