@@ -1,11 +1,9 @@
+import { useGameQueryStore } from "@/services/constants/store";
 import { Box, Button, Menu, Portal } from "@chakra-ui/react";
 import { HiChevronDown } from "react-icons/hi";
 
-interface Props{
-  byOrder: (order:string)=>void;
-  sortOrder: string;
-}
-const SortSelector = ({byOrder,sortOrder}: Props) => {
+
+const SortSelector = () => {
   const sortOrders = [
     {value:'', label: 'Relevance'},
     {value:'-added', label: 'Date added'},
@@ -14,7 +12,8 @@ const SortSelector = ({byOrder,sortOrder}: Props) => {
     {value:'-metacritic', label: 'Popularity'},
     {value:'-rating', label: 'Average rating'},
   ];
-
+const sortOrder = useGameQueryStore(s=>s.gameQuery.sortOrder);
+const byOrder = useGameQueryStore(s=>s.setOrder);
   const currOrder = sortOrders.find(order=> order.value == sortOrder);
   return (
     <Box px={10}>

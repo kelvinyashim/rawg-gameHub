@@ -1,14 +1,17 @@
 import { type GameData } from "@/services/game-service";
-import type { GameQuery } from "@/App";
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 import APICLIENT, { type FetchResposnse } from "@/services/api-client";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import ms from "ms";
+import { useGameQueryStore } from "@/services/constants/store";
 
 const api = new APICLIENT<GameData>("/games");
 
-export const useGame = (gameQuery: GameQuery) => {
+export const useGame = () => {
+  const gameQuery = useGameQueryStore(s=>s.gameQuery);
   const {data, fetchNextPage, isFetchingNextPage, hasNextPage, ...rest} = useInfiniteQuery<FetchResposnse<GameData>, Error>({
+
     queryKey: ["games", gameQuery],
     queryFn: ({ pageParam = 1 }) =>
       api.getAll({

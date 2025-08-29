@@ -1,18 +1,14 @@
 import { usePlatforms } from "@/hooks/usePlatform";
 import { usePlatform } from "@/hooks/usePlatforms";
-import type { Platform } from "@/services/game-service";
+import { useGameQueryStore } from "@/services/constants/store";
 import {  Button, Menu, Portal } from "@chakra-ui/react";
 import { HiChevronDown } from "react-icons/hi";
 
-interface Props {
-  onSelectedPlatform: (platform: Platform) => void;
-  selectedPlatformId?:number;
-}
-export const FilterByPlatform = ({
-  onSelectedPlatform,
-  selectedPlatformId,
-}: Props) => {
+
+export const FilterByPlatform = () => {
   const {data: platform } = usePlatforms();
+  const selectedPlatformId = useGameQueryStore(s=>s.gameQuery.platformId); 
+  const onSelectedPlatform = useGameQueryStore(s=>s.setPlatformId); 
   const selectedPlat = usePlatform(selectedPlatformId);
   return (
     
@@ -30,7 +26,7 @@ export const FilterByPlatform = ({
                 <Menu.Item
                   key={p.id}
                   value={p.slug}
-                  onClick={() => onSelectedPlatform(p)}
+                  onClick={() => onSelectedPlatform(p.id)}
                 >
                   {p.name}
                 </Menu.Item>
