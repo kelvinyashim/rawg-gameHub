@@ -5,6 +5,7 @@ import { GameCardSkeleton } from "./GameCardSkeleton";
 import GameCardContainer from "./GameCardContainer";
 
 import React from "react";
+import { Outlet } from "react-router-dom";
 
 
 
@@ -40,6 +41,7 @@ export const GameGrid = () => {
           </React.Fragment>
         ))}
       </SimpleGrid>
+      <Outlet/>
       {hasNextPage ? (
          <div ref={sentryRef}>
         {isFetchingNextPage && <p>...</p>}
