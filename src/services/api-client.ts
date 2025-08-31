@@ -39,6 +39,11 @@ getAll = (config: AxiosRequestConfig)=>{
   update = (entity: T)=>{
     return axiosInstance.put(this.endpoint + '/' + entity.id, entity)
   }
+   get = (id: number |string) => {
+    return axiosInstance
+      .get<T>(this.endpoint + '/' + id)
+      .then(res => res.data);
+  };
 }
 
 

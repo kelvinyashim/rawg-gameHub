@@ -7,6 +7,7 @@ export interface Platform{
 export interface GameData {
   id: number;
   name: string;
+  slug: string;
   background_image: string;
   platforms: {
     platform: Platform
